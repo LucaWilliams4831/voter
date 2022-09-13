@@ -2,30 +2,39 @@ package keeper
 
 import (
 	"context"
-	"fmt"
-
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+    "fmt"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+    "github.com/tendermint/tendermint/crypto"
 	"voter/x/voter/types"
 )
 
 func (k msgServer) CreatePoll(goCtx context.Context, msg *types.MsgCreatePoll) (*types.MsgCreatePollResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	var poll = types.Poll{
-		Creator: msg.Creator,
-		Title:   msg.Title,
-		Options: msg.Options,
-	}
-
-	id := k.AppendPoll(
-		ctx,
-		poll,
-	)
-
-	return &types.MsgCreatePollResponse{
-		Id: id,
-	}, nil
+    moduleAcct := sdk.AccAddress(crypto.AddressHash([]byte(types.ModuleName)))
+    feeCoins, err := sdk.ParseCoinsNormalized("200token")
+    if err != nil {
+        return nil, err
+    }
+    creatorAddress, err := sdk.AccAddressFromBech32(msg.Creator)
+    if err != nil {
+        return nil, err
+    }
+    if err := k.bankKeeper.SendCoins(ctx, creatorAddress, moduleAcct, feeCoins); err != nil {
+        return nil, err
+    }
+    var poll = types.Poll{
+    Creator: msg.Creator,
+    Title:   msg.Title,
+    Options: msg.Options,
+  }
+  id := k.AppendPoll(
+    ctx,
+    poll,
+  )
+  return &types.MsgCreatePollResponse{
+    Id: id,
+  }, nil
 }
 
 func (k msgServer) UpdatePoll(goCtx context.Context, msg *types.MsgUpdatePoll) (*types.MsgUpdatePollResponse, error) {

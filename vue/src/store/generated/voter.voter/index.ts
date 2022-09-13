@@ -269,6 +269,19 @@ export default {
 				}
 			}
 		},
+		async sendMsgUpdateVote({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const client=await initClient(rootGetters)
+				const result = await client.VoterVoter.tx.sendMsgUpdateVote({ value, fee: {amount: fee, gas: "200000"}, memo })
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgUpdateVote:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgUpdateVote:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
 		async sendMsgUpdatePoll({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const client=await initClient(rootGetters)
@@ -282,29 +295,16 @@ export default {
 				}
 			}
 		},
-		async sendMsgCreatePoll({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgCreateVote({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const client=await initClient(rootGetters)
-				const result = await client.VoterVoter.tx.sendMsgCreatePoll({ value, fee: {amount: fee, gas: "200000"}, memo })
+				const result = await client.VoterVoter.tx.sendMsgCreateVote({ value, fee: {amount: fee, gas: "200000"}, memo })
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCreatePoll:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgCreateVote:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgCreatePoll:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgUpdateVote({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const client=await initClient(rootGetters)
-				const result = await client.VoterVoter.tx.sendMsgUpdateVote({ value, fee: {amount: fee, gas: "200000"}, memo })
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgUpdateVote:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgUpdateVote:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgCreateVote:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -321,16 +321,16 @@ export default {
 				}
 			}
 		},
-		async sendMsgCreateVote({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgCreatePoll({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const client=await initClient(rootGetters)
-				const result = await client.VoterVoter.tx.sendMsgCreateVote({ value, fee: {amount: fee, gas: "200000"}, memo })
+				const result = await client.VoterVoter.tx.sendMsgCreatePoll({ value, fee: {amount: fee, gas: "200000"}, memo })
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCreateVote:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgCreatePoll:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgCreateVote:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgCreatePoll:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -348,6 +348,19 @@ export default {
 				}
 			}
 		},
+		async MsgUpdateVote({ rootGetters }, { value }) {
+			try {
+				const client=initClient(rootGetters)
+				const msg = await client.VoterVoter.tx.msgUpdateVote({value})
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgUpdateVote:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgUpdateVote:Create Could not create message: ' + e.message)
+				}
+			}
+		},
 		async MsgUpdatePoll({ rootGetters }, { value }) {
 			try {
 				const client=initClient(rootGetters)
@@ -361,29 +374,16 @@ export default {
 				}
 			}
 		},
-		async MsgCreatePoll({ rootGetters }, { value }) {
+		async MsgCreateVote({ rootGetters }, { value }) {
 			try {
 				const client=initClient(rootGetters)
-				const msg = await client.VoterVoter.tx.msgCreatePoll({value})
+				const msg = await client.VoterVoter.tx.msgCreateVote({value})
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCreatePoll:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgCreateVote:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgCreatePoll:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgUpdateVote({ rootGetters }, { value }) {
-			try {
-				const client=initClient(rootGetters)
-				const msg = await client.VoterVoter.tx.msgUpdateVote({value})
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgUpdateVote:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgUpdateVote:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgCreateVote:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -400,16 +400,16 @@ export default {
 				}
 			}
 		},
-		async MsgCreateVote({ rootGetters }, { value }) {
+		async MsgCreatePoll({ rootGetters }, { value }) {
 			try {
 				const client=initClient(rootGetters)
-				const msg = await client.VoterVoter.tx.msgCreateVote({value})
+				const msg = await client.VoterVoter.tx.msgCreatePoll({value})
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCreateVote:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgCreatePoll:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgCreateVote:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgCreatePoll:Create Could not create message: ' + e.message)
 				}
 			}
 		},

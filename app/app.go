@@ -490,7 +490,9 @@ func New(
 		appCodec,
 		keys[votermoduletypes.StoreKey],
 		keys[votermoduletypes.MemStoreKey],
+		
 		app.GetSubspace(votermoduletypes.ModuleName),
+		app.BankKeeper,
 	)
 	voterModule := votermodule.NewAppModule(appCodec, app.VoterKeeper, app.AccountKeeper, app.BankKeeper)
 
