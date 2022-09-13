@@ -25,7 +25,11 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // GenesisState defines the voter module's genesis state.
 type GenesisState struct {
-	Params Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
+	Params    Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
+	PollList  []Poll `protobuf:"bytes,2,rep,name=pollList,proto3" json:"pollList"`
+	PollCount uint64 `protobuf:"varint,3,opt,name=pollCount,proto3" json:"pollCount,omitempty"`
+	VoteList  []Vote `protobuf:"bytes,4,rep,name=voteList,proto3" json:"voteList"`
+	VoteCount uint64 `protobuf:"varint,5,opt,name=voteCount,proto3" json:"voteCount,omitempty"`
 }
 
 func (m *GenesisState) Reset()         { *m = GenesisState{} }
@@ -68,6 +72,34 @@ func (m *GenesisState) GetParams() Params {
 	return Params{}
 }
 
+func (m *GenesisState) GetPollList() []Poll {
+	if m != nil {
+		return m.PollList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetPollCount() uint64 {
+	if m != nil {
+		return m.PollCount
+	}
+	return 0
+}
+
+func (m *GenesisState) GetVoteList() []Vote {
+	if m != nil {
+		return m.VoteList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetVoteCount() uint64 {
+	if m != nil {
+		return m.VoteCount
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*GenesisState)(nil), "voter.voter.GenesisState")
 }
@@ -75,18 +107,23 @@ func init() {
 func init() { proto.RegisterFile("voter/genesis.proto", fileDescriptor_6c918bfcab982bad) }
 
 var fileDescriptor_6c918bfcab982bad = []byte{
-	// 162 bytes of a gzipped FileDescriptorProto
+	// 252 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2e, 0xcb, 0x2f, 0x49,
 	0x2d, 0xd2, 0x4f, 0x4f, 0xcd, 0x4b, 0x2d, 0xce, 0x2c, 0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17,
 	0xe2, 0x06, 0x0b, 0xea, 0x81, 0x49, 0x29, 0x91, 0xf4, 0xfc, 0xf4, 0x7c, 0xb0, 0xb8, 0x3e, 0x88,
-	0x05, 0x51, 0x22, 0x25, 0x04, 0xd1, 0x57, 0x90, 0x58, 0x94, 0x98, 0x0b, 0xd5, 0xa6, 0xe4, 0xc8,
-	0xc5, 0xe3, 0x0e, 0x31, 0x27, 0xb8, 0x24, 0xb1, 0x24, 0x55, 0xc8, 0x90, 0x8b, 0x0d, 0x22, 0x2f,
-	0xc1, 0xa8, 0xc0, 0xa8, 0xc1, 0x6d, 0x24, 0xac, 0x87, 0x64, 0xae, 0x5e, 0x00, 0x58, 0xca, 0x89,
-	0xe5, 0xc4, 0x3d, 0x79, 0x86, 0x20, 0xa8, 0x42, 0x27, 0xdd, 0x13, 0x8f, 0xe4, 0x18, 0x2f, 0x3c,
-	0x92, 0x63, 0x7c, 0xf0, 0x48, 0x8e, 0x71, 0xc2, 0x63, 0x39, 0x86, 0x0b, 0x8f, 0xe5, 0x18, 0x6e,
-	0x3c, 0x96, 0x63, 0x88, 0x82, 0x3a, 0xb4, 0x42, 0x1f, 0x42, 0x97, 0x54, 0x16, 0xa4, 0x16, 0x27,
-	0xb1, 0x81, 0x2d, 0x36, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0x88, 0xe5, 0xe2, 0x42, 0xc6, 0x00,
-	0x00, 0x00,
+	0x05, 0x51, 0x22, 0x25, 0x04, 0xd1, 0x57, 0x90, 0x58, 0x94, 0x98, 0x0b, 0xd5, 0x26, 0x25, 0x00,
+	0x15, 0xcb, 0xcf, 0xc9, 0x41, 0x15, 0x01, 0x91, 0x10, 0x11, 0xa5, 0xe7, 0x8c, 0x5c, 0x3c, 0xee,
+	0x10, 0xcb, 0x82, 0x4b, 0x12, 0x4b, 0x52, 0x85, 0x0c, 0xb9, 0xd8, 0x20, 0x86, 0x48, 0x30, 0x2a,
+	0x30, 0x6a, 0x70, 0x1b, 0x09, 0xeb, 0x21, 0x59, 0xae, 0x17, 0x00, 0x96, 0x72, 0x62, 0x39, 0x71,
+	0x4f, 0x9e, 0x21, 0x08, 0xaa, 0x50, 0xc8, 0x98, 0x8b, 0x03, 0x64, 0x87, 0x4f, 0x66, 0x71, 0x89,
+	0x04, 0x93, 0x02, 0xb3, 0x06, 0xb7, 0x91, 0x20, 0xaa, 0xa6, 0xfc, 0x9c, 0x1c, 0xa8, 0x16, 0xb8,
+	0x42, 0x21, 0x19, 0x2e, 0x4e, 0x10, 0xdb, 0x39, 0xbf, 0x34, 0xaf, 0x44, 0x82, 0x59, 0x81, 0x51,
+	0x83, 0x25, 0x08, 0x21, 0x00, 0x32, 0x12, 0xa4, 0x17, 0x6c, 0x24, 0x0b, 0x16, 0x23, 0xc3, 0xf2,
+	0x4b, 0x52, 0x61, 0x46, 0xc2, 0x14, 0x82, 0x8c, 0x04, 0xb1, 0x21, 0x46, 0xb2, 0x42, 0x8c, 0x84,
+	0x0b, 0x38, 0xe9, 0x9e, 0x78, 0x24, 0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3, 0x83, 0x47, 0x72, 0x8c,
+	0x13, 0x1e, 0xcb, 0x31, 0x5c, 0x78, 0x2c, 0xc7, 0x70, 0xe3, 0xb1, 0x1c, 0x43, 0x14, 0x34, 0xcc,
+	0x2b, 0xf4, 0x21, 0x74, 0x49, 0x65, 0x41, 0x6a, 0x71, 0x12, 0x1b, 0x38, 0x7c, 0x8c, 0x01, 0x01,
+	0x00, 0x00, 0xff, 0xff, 0x8d, 0x91, 0x17, 0x6b, 0x91, 0x01, 0x00, 0x00,
 }
 
 func (m *GenesisState) Marshal() (dAtA []byte, err error) {
@@ -109,6 +146,44 @@ func (m *GenesisState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.VoteCount != 0 {
+		i = encodeVarintGenesis(dAtA, i, uint64(m.VoteCount))
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.VoteList) > 0 {
+		for iNdEx := len(m.VoteList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.VoteList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x22
+		}
+	}
+	if m.PollCount != 0 {
+		i = encodeVarintGenesis(dAtA, i, uint64(m.PollCount))
+		i--
+		dAtA[i] = 0x18
+	}
+	if len(m.PollList) > 0 {
+		for iNdEx := len(m.PollList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.PollList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x12
+		}
+	}
 	{
 		size, err := m.Params.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
@@ -141,6 +216,24 @@ func (m *GenesisState) Size() (n int) {
 	_ = l
 	l = m.Params.Size()
 	n += 1 + l + sovGenesis(uint64(l))
+	if len(m.PollList) > 0 {
+		for _, e := range m.PollList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if m.PollCount != 0 {
+		n += 1 + sovGenesis(uint64(m.PollCount))
+	}
+	if len(m.VoteList) > 0 {
+		for _, e := range m.VoteList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if m.VoteCount != 0 {
+		n += 1 + sovGenesis(uint64(m.VoteCount))
+	}
 	return n
 }
 
@@ -212,6 +305,112 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PollList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PollList = append(m.PollList, Poll{})
+			if err := m.PollList[len(m.PollList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PollCount", wireType)
+			}
+			m.PollCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PollCount |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VoteList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VoteList = append(m.VoteList, Vote{})
+			if err := m.VoteList[len(m.VoteList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VoteCount", wireType)
+			}
+			m.VoteCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.VoteCount |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipGenesis(dAtA[iNdEx:])

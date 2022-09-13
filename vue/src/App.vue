@@ -30,6 +30,7 @@ export default {
     let navbarLinks = [
       { name: 'Portfolio', url: '/portfolio' },
       { name: 'Data', url: '/data' }
+      { name: 'Voter', url: '/voter' }
     ]
 
     // computed
@@ -39,6 +40,9 @@ export default {
     onBeforeMount(async () => {
       await $s.dispatch('common/env/init')
 
+      await $s.dispatch("voter.voter/QueryPollAll",{options:{subscribe:true, all:true},params:{}})
+      await $s.dispatch("voter.voter/QueryVoteAll",{options:{subscribe:true, all:true},params:{}})
+      
       router.push('portfolio')
     })
 

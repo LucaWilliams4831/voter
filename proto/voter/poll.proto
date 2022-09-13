@@ -1,0 +1,11 @@
+syntax = "proto3";
+package voter.voter;
+
+option go_package = "voter/x/voter/types";
+
+message Poll {
+  uint64 id = 1;
+  string title = 2; 
+  repeated string options = 3; 
+  string creator = 4;
+}
